@@ -4,7 +4,7 @@ import {CarModule} from "./car/car.module";
 
 @Module({
   imports: [
-      MongooseModule.forRoot('mongodb+srv://essty:C6JF8Vl8RSG3TmaV@cluster0.mfcr1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/cars'),
+      MongooseModule.forRoot('mongodb+srv://essty:%PASS%@cluster0.mfcr1.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0/cars'),
       CarModule,
   ],
   controllers: [],
