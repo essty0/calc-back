@@ -11,7 +11,7 @@ async function bootstrap(): Promise<INestApplication>  {
   dotenv.config();
   const app = await NestFactory.create(AppModule, { cors: true  });
   app.enableCors({
-    origin: origins,
+    origin: '*',//origins,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
