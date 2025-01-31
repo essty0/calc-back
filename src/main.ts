@@ -1,9 +1,12 @@
 import { NestFactory } from '@nestjs/core';
 import * as dotenv from 'dotenv';
 import { AppModule } from './app.module';
-import {ValidationPipe} from "@nestjs/common";
+import {INestApplication, ValidationPipe} from "@nestjs/common";
+import { VercelRequest, VercelResponse } from '@vercel/node';
 
-async function bootstrap() {
+let cachedApp: INestApplication | null = null;
+
+async function bootstrap(): Promise<INestApplication>  {
   const origins = ['http://localhost:3001', 'http://localhost:3000'];
   dotenv.config();
   const app = await NestFactory.create(AppModule, { cors: true  });
@@ -14,7 +17,15 @@ async function bootstrap() {
   });
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
-
-  await app.listen(5000);
+  await app.init();
+  //await app.listen(5000);
+  return app;
 }
-bootstrap();
+//bootstrap();
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  if (!cachedApp) {
+    cachedApp = await bootstrap();
+  }
+  const expressApp = cachedApp?.getHttpAdapter().getInstance();
+  return expressApp(req, res);
+}
