@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 import {ValidationPipe} from "@nestjs/common";
 
 async function bootstrap() {
-  const origins = ['http://localhost:3001', 'http://localhost:3000'];
+  const origins = ['http://localhost:3001', 'http://localhost:3000', 'https://car.adventourparis.com'];
   dotenv.config();
   const app = await NestFactory.create(AppModule, { cors: true  });
   app.enableCors({
